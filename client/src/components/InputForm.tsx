@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import Input from './Input.tsx';
+import axios from 'axios';
 
 function InputForm({})
 {
@@ -20,6 +21,15 @@ function InputForm({})
 
     const onSubmit = (e : React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        axios.post('http://localhost:3000/test', {
+            name : formData.name,
+            birthday : formData.birthday,
+            time : formData.time
+        })
+        .then(res => {
+            console.log(res)
+        })
         console.log(formData)
     };
 
