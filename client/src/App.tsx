@@ -1,12 +1,28 @@
-import React from 'react';
-import {useState} from 'react';
-import MyButton from './components/Button.tsx';
-import InputForm from './components/InputForm.tsx';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import DataForm from "./pages/DataForm.tsx";
+import styles from "./styles/Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
-    return (
-        <InputForm/>
-    )
-}
+  const navigate = useNavigate();
+  const onClick = (e) => {
+    navigate("/test");
+  };
+
+  return (
+    <div>
+      <button className={styles.homeButton} onClick={onClick}>
+        test
+      </button>
+      <main>
+        <Routes>
+          <Route path="/test" element={<DataForm />} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
 
 export default App;
