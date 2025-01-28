@@ -36,29 +36,31 @@ function InputForm({}) {
     });
   };
 
-  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let data = await getMessage();
+    console.log(data);
 
     let inputedData = {
       name: formData.name,
       birthday: formData.birthday,
       time: formData.time,
     };
+  };
 
-    axios
-      .post(
-        "http://localhost:3000/test",
-        {
-          name: formData.name,
-          birthday: formData.birthday,
-          time: formData.time,
-        }
-        // { withCredentials: true }
-      )
-      .then((res) => {
-        console.log(res);
-        setCookie("userInfo", inputedData);
+  const getMessage = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/test", {
+        name: formData.name,
+        birthday: formData.birthday,
+        time: formData.time,
       });
+      return response.data.result;
+    } catch (error) {
+      console.error("API 요청 실패:", error.response || error.message);
+      return "API 호출 실패";
+    }
   };
 
   return (
