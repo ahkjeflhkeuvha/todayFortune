@@ -1,47 +1,73 @@
-import React from 'react';
-import {useState} from 'react';
-import Input from './Input.tsx';
-import axios from 'axios';
+import React from "react";
+import { useEffect, useState } from "react";
+import Input from "./Input.tsx";
+import axios from "axios";
+import { Cookies, useCookies } from "react-cookie";
 
-function InputForm({})
-{
-    const fields = ["name", "birthday", "time"]
-    const [formData, setFormData] = useState({
-        name : '',
-        birthday : '',
-        time : ''
-    });
+const cookies = new Cookies();
 
-    const onChange = (fieldName : string, value : string) => {
-        setFormData({
-            ...formData,
-            [fieldName] : value,
-        })
+function InputForm({}) {
+  const fields = ["name", "birthday", "time"];
+  const [cookies, setCookie] = useCookies(["userInfo"]);
+
+  useEffect(() => {
+    if (cookies.userInfo !== undefined) {
+      console.log(cookies.userInfo["name"]);
     }
+  }, [cookies.userInfo]);
 
-    const onSubmit = (e : React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault()
+  const [formData, setFormData] = useState({
+    name: "",
+    birthday: "",
+    time: "",
+  });
 
-        axios.post('http://localhost:3000/test', {
-            name : formData.name,
-            birthday : formData.birthday,
-            time : formData.time
-        })
-        .then(res => {
-            console.log(res)
-        })
-        console.log(formData)
+  const onChange = (fieldName: string, value: string) => {
+    setFormData({
+      ...formData,
+      [fieldName]: value,
+    });
+  };
+
+  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    let inputedData = {
+      name: formData.name,
+      birthday: formData.birthday,
+      time: formData.time,
     };
 
-    return (
-        <form onSubmit={onSubmit}>
-            {fields.map((field, i) => 
-            <Input key={i} fieldName={field} value={formData[field]} onChange={onChange}/>
-            )}
+    axios
+      .post(
+        "http://localhost:3000/test",
+        {
+          name: formData.name,
+          birthday: formData.birthday,
+          time: formData.time,
+        }
+        // { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+        setCookie("userInfo", inputedData);
+      });
+  };
 
-            <button type='submit'>button</button>
-        </form>
-    )
+  return (
+    <form onSubmit={onSubmit}>
+      {fields.map((field, i) => (
+        <Input
+          key={i}
+          fieldName={field}
+          value={formData[field]}
+          onChange={onChange}
+        />
+      ))}
+
+      <button type="submit">button</button>
+    </form>
+  );
 }
 
 export default InputForm;

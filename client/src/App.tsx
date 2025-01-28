@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import DataForm from "./pages/DataForm.tsx";
-import styles from "./styles/Home.module.css";
+// import styles from "./styles/Home.module.css";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <div>
-      <button className={styles.homeButton} onClick={onClick}>
+      <button className="homeButton" onClick={onClick}>
         test
       </button>
       <main>
