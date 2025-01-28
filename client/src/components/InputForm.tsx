@@ -13,6 +13,13 @@ function InputForm({}) {
   useEffect(() => {
     if (cookies.userInfo !== undefined) {
       console.log(cookies.userInfo["name"]);
+
+      (document.getElementById(fields[0]) as HTMLInputElement).value =
+        cookies.userInfo[fields[0]];
+      (document.getElementById(fields[1]) as HTMLInputElement).value =
+        cookies.userInfo[fields[1]];
+      (document.getElementById(fields[2]) as HTMLInputElement).value =
+        cookies.userInfo[fields[2]];
     }
   }, [cookies.userInfo]);
 
