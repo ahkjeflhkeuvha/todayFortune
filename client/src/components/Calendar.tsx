@@ -1,6 +1,6 @@
 import React from "react";
 
-function InputField(props: {
+function Calendar(props: {
   fieldName: string;
   value: string;
   onChange: (fieldName: string, value: string) => void;
@@ -11,16 +11,16 @@ function InputField(props: {
   };
 
   return (
-    <div className="inputField">
+    <div>
       <label>{props.fieldName}</label>
-      <input id={props.fieldName} value={props.value} onChange={onChange} />
-
-      <div>
-        <b>값 : </b>
-        {props.value}
-      </div>
+      <input
+        type="date"
+        id={props.fieldName}
+        value={props.value}
+        onChange={onChange}
+      />
     </div>
   );
 }
 
-export default InputField;
+export default Calendar;

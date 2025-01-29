@@ -1,26 +1,27 @@
 import React from "react";
 
-function InputField(props: {
+function SelectField(props: {
   fieldName: string;
   value: string;
   onChange: (fieldName: string, value: string) => void;
+  options: string[];
 }) {
   const onChange = (e: React.ChangeEvent<HTMLElement>) => {
     const target = e.target as HTMLButtonElement;
     props.onChange(props.fieldName, target.value);
   };
-
   return (
-    <div className="inputField">
+    <div>
       <label>{props.fieldName}</label>
-      <input id={props.fieldName} value={props.value} onChange={onChange} />
-
-      <div>
-        <b>값 : </b>
-        {props.value}
-      </div>
+      <select onChange={onChange} value={props.value} id={props.fieldName}>
+        {props.options.map((option) => (
+          <option key={option} value={option.substring(7, option.length)}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
 
-export default InputField;
+export default SelectField;
