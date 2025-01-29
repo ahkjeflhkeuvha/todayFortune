@@ -1,8 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import DataForm from "./pages/DataForm.tsx";
-// import styles from "./styles/Home.module.css";
+import Result from "./pages/Result.tsx";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
@@ -19,6 +18,7 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/test" element={<DataForm />} />
+          <Route path="/test/result" element={<Result />} />
         </Routes>
       </main>
     </div>

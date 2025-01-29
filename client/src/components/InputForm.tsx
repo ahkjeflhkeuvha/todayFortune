@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import Input from "./Input.tsx";
 import Select from "./Select.tsx";
 import Calendar from "./Calendar.tsx";
 import axios from "axios";
-import { Cookies, useCookies } from "react-cookie";
-
-const cookies = new Cookies();
+import { useCookies } from "react-cookie";
 
 function InputForm({}) {
   const fields = ["name", "birthday", "time"];
@@ -26,6 +24,10 @@ function InputForm({}) {
     "해시(亥時) 21:30-23:29",
   ];
 
+  const navigateTo = useCallback((location) => {
+    window.location.href = location;
+  }, []);
+
   useEffect(() => {
     if (cookies.userInfo !== undefined) {
       (document.getElementById(fields[0]) as HTMLInputElement).value =
@@ -35,6 +37,12 @@ function InputForm({}) {
       (document.getElementById(fields[2]) as HTMLInputElement).value =
         cookies.userInfo[fields[2]];
     }
+
+    setFormData({
+      name: cookies.userInfo[fields[0]],
+      birthday: cookies.userInfo[fields[1]],
+      time: cookies.userInfo[fields[2]],
+    });
   }, [cookies.userInfo]);
 
   const [formData, setFormData] = useState({
@@ -62,6 +70,7 @@ function InputForm({}) {
       time: formData.time,
     };
     setCookie("userInfo", inputedData);
+    navigateTo("/test/result");
   };
 
   const getMessage = async () => {
@@ -95,7 +104,12 @@ function InputForm({}) {
         options={options}
       />
 
-      <button type="submit">button</button>
+      <button
+        type="submit"
+        disabled={!formData.name || !formData.birthday || !formData.time}
+      >
+        button
+      </button>
     </form>
   );
 }
